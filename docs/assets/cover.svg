@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="534" viewBox="0 0 800 534">
+  <!-- Cover of the TP-Link / Mercusys Router integration for Gladys Assistant
+       (illustration, not a TP-Link or Mercusys logo). Built into cover.jpg by
+       scripts/build-cover.sh. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1820"/>
+      <stop offset="1" stop-color="#12303a"/>
+    </linearGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f4f7f9"/>
+      <stop offset="1" stop-color="#c9d3da"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#3fd1c6" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#3fd1c6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="534" fill="url(#bg)"/>
+
+  <!-- faint network grid -->
+  <g stroke="#173842" stroke-width="1">
+    <path d="M0 89 H800 M0 178 H800 M0 267 H800 M0 356 H800 M0 445 H800"/>
+    <path d="M100 0 V534 M200 0 V534 M300 0 V534 M400 0 V534 M500 0 V534 M600 0 V534 M700 0 V534"/>
+  </g>
+
+  <!-- internet globe, left -->
+  <g transform="translate(110 175)" fill="none" stroke="#7fd8ff" stroke-width="5">
+    <circle r="44" fill="#123040"/>
+    <ellipse rx="18" ry="44"/>
+    <path d="M-44 0 H44 M-38 -22 H38 M-38 22 H38"/>
+  </g>
+  <text x="110" y="250" fill="#7fd8ff" font-family="DejaVu Sans, Arial, sans-serif" font-size="20" text-anchor="middle">Internet</text>
+
+  <!-- links -->
+  <g fill="none" stroke-width="6" stroke-linecap="round">
+    <path d="M158 178 C 230 178, 250 268, 296 268" stroke="#7fd8ff"/>
+    <path d="M504 254 C 570 254, 580 160, 640 160" stroke="#3fd1c6" stroke-dasharray="2 14"/>
+    <path d="M504 286 C 570 286, 590 318, 640 318" stroke="#f2b84b" stroke-dasharray="2 14"/>
+  </g>
+
+  <!-- the router: a flat white box with three antennas -->
+  <circle cx="400" cy="262" r="165" fill="url(#glow)"/>
+  <g stroke="#8fa3b0" stroke-width="11" stroke-linecap="round">
+    <path d="M318 240 L300 128"/>
+    <path d="M400 236 L400 112"/>
+    <path d="M482 240 L500 128"/>
+  </g>
+  <rect x="290" y="236" width="220" height="62" rx="14" fill="url(#body)" stroke="#e8eef2" stroke-width="2"/>
+  <g fill="#3fd1c6">
+    <circle cx="336" cy="267" r="5"/>
+    <circle cx="358" cy="267" r="5"/>
+    <circle cx="380" cy="267" r="5"/>
+    <circle cx="402" cy="267" r="5" fill="#f2b84b"/>
+  </g>
+  <path d="M432 267 H482" stroke="#0f6f68" stroke-width="5" stroke-linecap="round"/>
+  <!-- Wi-Fi waves above -->
+  <g fill="none" stroke="#3fd1c6" stroke-width="6" stroke-linecap="round">
+    <path d="M372 82 A40 40 0 0 1 428 82"/>
+    <path d="M354 60 A66 66 0 0 1 446 60" stroke-opacity="0.7"/>
+    <path d="M336 38 A92 92 0 0 1 464 38" stroke-opacity="0.4"/>
+  </g>
+
+  <!-- the home (Gladys), right top -->
+  <g transform="translate(690 160)">
+    <path d="M-44 4 L0 -36 L44 4" fill="none" stroke="#3fd1c6" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="-32" y="0" width="64" height="44" rx="6" fill="#123a3a" stroke="#3fd1c6" stroke-width="5"/>
+    <rect x="-9" y="18" width="18" height="26" rx="3" fill="#3fd1c6"/>
+  </g>
+  <!-- guests on their own Wi-Fi, right bottom -->
+  <g transform="translate(690 318)" fill="#3a2f15" stroke="#f2b84b" stroke-width="5">
+    <circle cx="-18" cy="-20" r="13"/>
+    <path d="M-42 22 C -42 0, 6 0, 6 22 Z" stroke-linejoin="round"/>
+    <circle cx="22" cy="-14" r="11"/>
+    <path d="M8 24 C 8 6, 44 6, 44 24 Z" stroke-linejoin="round"/>
+  </g>
+
+  <!-- title -->
+  <text x="400" y="420" fill="#ffffff" font-family="DejaVu Sans, Arial, sans-serif" font-size="48" font-weight="bold" text-anchor="middle">TP-Link · Mercusys</text>
+  <text x="400" y="466" fill="#c8dbe0" font-family="DejaVu Sans, Arial, sans-serif" font-size="26" text-anchor="middle">for Gladys Assistant</text>
+  <text x="400" y="506" fill="#7d99a3" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" text-anchor="middle">Archer and Mercusys routers · Wi-Fi, guest Wi-Fi and presence, on your network</text>
+</svg>

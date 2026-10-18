@@ -1,0 +1,1319 @@
+{
+  "manifest_version": 1,
+  "type": "device",
+  "name": "TP-Link / Mercusys Router",
+  "description": {
+    "en": "TP-Link and Mercusys routers: internet link, Wi-Fi and guest Wi-Fi, network presence, scenes.",
+    "fr": "Routeurs TP-Link et Mercusys : lien Internet, Wi-Fi et Wi-Fi invité, présence réseau, scènes.",
+    "de": "TP-Link- und Mercusys-Router: Internet, WLAN und Gast-WLAN, Anwesenheit im Netz, Szenen.",
+    "es": "Routers TP-Link y Mercusys: Internet, Wi-Fi e invitados, presencia en red, escenas."
+  },
+  "version": "0.1.0",
+  "docker_image": "ghcr.io/william-de71/gladys-tplink-router:0.1.0",
+  "gladys_version": ">=5.1.0",
+  "categories": ["network"],
+  "cover_image": "https://raw.githubusercontent.com/William-De71/gladys-tplink-router/main/cover.jpg",
+  "transports": ["local"],
+  "config_schema": [
+    {
+      "key": "intro",
+      "type": "section",
+      "label": {
+        "en": "TP-Link or Mercusys router",
+        "fr": "Routeur TP-Link ou Mercusys",
+        "de": "TP-Link- oder Mercusys-Router",
+        "es": "Router TP-Link o Mercusys"
+      },
+      "description": {
+        "en": "The integration logs in to the web page of the router (Archer, Mercusys…) with its local password, like your browser. Everything stays on your network. The page admits one administrator at a time: each reading logs it out (see the pause).",
+        "fr": "L’intégration se connecte à la page web du routeur (Archer, Mercusys…) avec son mot de passe local, comme votre navigateur. Tout reste sur votre réseau. La page n’admet qu’un administrateur à la fois : chaque lecture vous en déconnecte (voir la pause).",
+        "de": "Die Integration meldet sich mit dem lokalen Passwort an der Weboberfläche des Routers an (Archer, Mercusys…), wie Ihr Browser. Alles bleibt in Ihrem Netzwerk. Die Oberfläche lässt nur einen Administrator gleichzeitig zu: Jede Abfrage meldet Sie dort ab (siehe Pause).",
+        "es": "La integración inicia sesión en la página web del router (Archer, Mercusys…) con su contraseña local, como su navegador. Todo se queda en su red. La página admite un solo administrador a la vez: cada lectura le cierra la sesión (vea la pausa)."
+      }
+    },
+    {
+      "key": "url",
+      "type": "string",
+      "label": {
+        "en": "Router address",
+        "fr": "Adresse du routeur",
+        "de": "Adresse des Routers",
+        "es": "Dirección del router"
+      },
+      "description": {
+        "en": "The address of its web page. http:// by default; https:// only with “Local Management via HTTPS” on.",
+        "fr": "L’adresse de sa page web. http:// par défaut ; https:// seulement avec la « Gestion locale via HTTPS » activée.",
+        "de": "Die Adresse seiner Weboberfläche. Standardmäßig http://; https:// nur mit aktivierter „Lokaler Verwaltung über HTTPS“.",
+        "es": "La dirección de su página web. http:// por defecto; https:// solo con la «Gestión local vía HTTPS» activada."
+      },
+      "placeholder": {
+        "en": "192.168.0.1",
+        "fr": "192.168.0.1",
+        "de": "192.168.0.1",
+        "es": "192.168.0.1"
+      },
+      "required": true
+    },
+    {
+      "key": "password",
+      "type": "secret",
+      "label": {
+        "en": "Local password",
+        "fr": "Mot de passe local",
+        "de": "Lokales Passwort",
+        "es": "Contraseña local"
+      },
+      "description": {
+        "en": "The password of the web page of the router, not the one of a TP-Link ID. After several wrong attempts the router locks the login for a while.",
+        "fr": "Le mot de passe de la page web du routeur, pas celui d’un TP-Link ID. Après plusieurs essais erronés, le routeur bloque la connexion un moment.",
+        "de": "Das Passwort der Weboberfläche des Routers, nicht das einer TP-Link-ID. Nach mehreren Fehlversuchen sperrt der Router die Anmeldung eine Weile.",
+        "es": "La contraseña de la página web del router, no la de un TP-Link ID. Tras varios intentos fallidos el router bloquea el inicio de sesión un rato."
+      },
+      "required": true
+    },
+    {
+      "key": "username",
+      "type": "string",
+      "label": {
+        "en": "User name",
+        "fr": "Nom d’utilisateur",
+        "de": "Benutzername",
+        "es": "Nombre de usuario"
+      },
+      "description": {
+        "en": "Leave empty for admin. Some EX models expect user.",
+        "fr": "Laissez vide pour admin. Certains modèles EX attendent user.",
+        "de": "Leer lassen für admin. Einige EX-Modelle erwarten user.",
+        "es": "Déjelo vacío para admin. Algunos modelos EX esperan user."
+      },
+      "placeholder": {
+        "en": "admin",
+        "fr": "admin",
+        "de": "admin",
+        "es": "admin"
+      },
+      "required": false
+    },
+    {
+      "key": "verify_tls",
+      "type": "boolean",
+      "label": {
+        "en": "Verify the certificate",
+        "fr": "Vérifier le certificat",
+        "de": "Zertifikat prüfen",
+        "es": "Verificar el certificado"
+      },
+      "description": {
+        "en": "HTTPS only. Leave unticked with the self-signed certificate of the router.",
+        "fr": "HTTPS seulement. Laissez décoché avec le certificat auto-signé du routeur.",
+        "de": "Nur HTTPS. Mit dem selbstsignierten Zertifikat des Routers nicht ankreuzen.",
+        "es": "Solo HTTPS. Déjelo sin marcar con el certificado autofirmado del router."
+      },
+      "default": false,
+      "required": false
+    },
+    {
+      "key": "options_intro",
+      "type": "section",
+      "label": {
+        "en": "Options",
+        "fr": "Options",
+        "de": "Optionen",
+        "es": "Opciones"
+      },
+      "description": {
+        "en": "The router, its Wi-Fi networks and the clients of the network appear on the Discovery screen; clients become presence sensors once you add them.",
+        "fr": "Le routeur, ses réseaux Wi-Fi et les clients du réseau apparaissent dans l’écran de découverte ; les clients deviennent des capteurs de présence une fois ajoutés.",
+        "de": "Der Router, seine WLAN-Netze und die Clients des Netzwerks erscheinen im Erkennungsbildschirm; Clients werden nach dem Hinzufügen zu Anwesenheitssensoren.",
+        "es": "El router, sus redes Wi-Fi y los clientes de la red aparecen en la pantalla de descubrimiento; los clientes se convierten en sensores de presencia al añadirlos."
+      }
+    },
+    {
+      "key": "poll_interval",
+      "type": "number",
+      "label": {
+        "en": "Reading interval (s)",
+        "fr": "Intervalle de lecture (s)",
+        "de": "Leseintervall (s)",
+        "es": "Intervalo de lectura (s)"
+      },
+      "description": {
+        "en": "30 to 600 seconds, 60 by default.",
+        "fr": "De 30 à 600 secondes, 60 par défaut.",
+        "de": "30 bis 600 Sekunden, standardmäßig 60.",
+        "es": "De 30 a 600 segundos, 60 por defecto."
+      },
+      "min": 30,
+      "max": 600,
+      "default": 60,
+      "required": false
+    },
+    {
+      "key": "pause_minutes",
+      "type": "number",
+      "label": {
+        "en": "Pause length (min)",
+        "fr": "Durée de la pause (min)",
+        "de": "Pausendauer (Min.)",
+        "es": "Duración de la pausa (min)"
+      },
+      "description": {
+        "en": "How long the “pause” button stops the readings, to use the web page of the router. 5 to 120, 20 by default.",
+        "fr": "Combien de temps le bouton « pause » arrête les lectures, pour utiliser la page web du routeur. De 5 à 120, 20 par défaut.",
+        "de": "Wie lange die Schaltfläche „Pause“ die Abfragen anhält, um die Weboberfläche des Routers zu nutzen. 5 bis 120, standardmäßig 20.",
+        "es": "Cuánto tiempo el botón «pausa» detiene las lecturas, para usar la página web del router. De 5 a 120, 20 por defecto."
+      },
+      "min": 5,
+      "max": 120,
+      "default": 20,
+      "required": false
+    },
+    {
+      "key": "network_devices",
+      "type": "select",
+      "label": {
+        "en": "Network devices offered",
+        "fr": "Appareils du réseau proposés",
+        "de": "Angebotene Netzwerkgeräte",
+        "es": "Dispositivos de red ofrecidos"
+      },
+      "description": {
+        "en": "Which clients of the router appear on the Discovery screen as presence devices.",
+        "fr": "Les clients du routeur qui apparaissent dans l’écran de découverte comme appareils de présence.",
+        "de": "Welche Clients des Routers im Erkennungsbildschirm als Anwesenheitsgeräte erscheinen.",
+        "es": "Qué clientes del router aparecen en la pantalla de descubrimiento como dispositivos de presencia."
+      },
+      "options": [
+        {
+          "value": "named",
+          "label": {
+            "en": "Those with a name",
+            "fr": "Ceux qui ont un nom",
+            "de": "Die mit einem Namen",
+            "es": "Los que tienen nombre"
+          }
+        },
+        {
+          "value": "all",
+          "label": {
+            "en": "All",
+            "fr": "Tous",
+            "de": "Alle",
+            "es": "Todos"
+          }
+        },
+        {
+          "value": "none",
+          "label": {
+            "en": "None",
+            "fr": "Aucun",
+            "de": "Keine",
+            "es": "Ninguno"
+          }
+        }
+      ],
+      "default": "named",
+      "required": false
+    },
+    {
+      "key": "absence_delay",
+      "type": "number",
+      "label": {
+        "en": "Absence delay (min)",
+        "fr": "Délai d’absence (min)",
+        "de": "Abwesenheitsverzögerung (Min.)",
+        "es": "Retardo de ausencia (min)"
+      },
+      "description": {
+        "en": "A device is absent once it has been gone that long. 1 to 60, 5 by default: a phone asleep leaves the Wi-Fi for a while.",
+        "fr": "Un appareil est absent après ce délai sans connexion. De 1 à 60, 5 par défaut : un téléphone en veille quitte le Wi-Fi un moment.",
+        "de": "Ein Gerät gilt nach dieser Zeit ohne Verbindung als abwesend. 1 bis 60, standardmäßig 5: Ein schlafendes Telefon verlässt das WLAN eine Weile.",
+        "es": "Un dispositivo está ausente tras este tiempo sin conexión. De 1 a 60, 5 por defecto: un teléfono en reposo sale del Wi-Fi un rato."
+      },
+      "min": 1,
+      "max": 60,
+      "default": 5,
+      "required": false
+    },
+    {
+      "key": "language",
+      "type": "select",
+      "label": {
+        "en": "Language of the texts",
+        "fr": "Langue des textes",
+        "de": "Sprache der Texte",
+        "es": "Idioma de los textos"
+      },
+      "description": {
+        "en": "Names, states and scene summaries. Automatic: the language of your dashboard, once a widget of the integration has been displayed.",
+        "fr": "Noms, états et résumés des scènes. Automatique : la langue de votre tableau de bord, dès qu’un widget de l’intégration a été affiché.",
+        "de": "Namen, Zustände und Szenen-Zusammenfassungen. Automatisch: die Sprache Ihres Dashboards, sobald ein Widget der Integration angezeigt wurde.",
+        "es": "Nombres, estados y resúmenes de escenas. Automático: el idioma de su panel, en cuanto se haya mostrado un widget de la integración."
+      },
+      "options": [
+        {
+          "value": "auto",
+          "label": {
+            "en": "Automatic",
+            "fr": "Automatique",
+            "de": "Automatisch",
+            "es": "Automático"
+          }
+        },
+        {
+          "value": "en",
+          "label": {
+            "en": "English",
+            "fr": "English",
+            "de": "English",
+            "es": "English"
+          }
+        },
+        {
+          "value": "fr",
+          "label": {
+            "en": "Français",
+            "fr": "Français",
+            "de": "Français",
+            "es": "Français"
+          }
+        },
+        {
+          "value": "de",
+          "label": {
+            "en": "Deutsch",
+            "fr": "Deutsch",
+            "de": "Deutsch",
+            "es": "Deutsch"
+          }
+        },
+        {
+          "value": "es",
+          "label": {
+            "en": "Español",
+            "fr": "Español",
+            "de": "Español",
+            "es": "Español"
+          }
+        }
+      ],
+      "default": "auto",
+      "required": false
+    }
+  ],
+  "actions": [
+    {
+      "key": "test_connection",
+      "label": {
+        "en": "Test the connection",
+        "fr": "Tester la connexion",
+        "de": "Verbindung testen",
+        "es": "Probar la conexión"
+      },
+      "description": {
+        "en": "Logs in to the router and shows its model and firmware.",
+        "fr": "Se connecte au routeur et affiche son modèle et son micrologiciel.",
+        "de": "Meldet sich am Router an und zeigt Modell und Firmware.",
+        "es": "Inicia sesión en el router y muestra su modelo y firmware."
+      },
+      "timeout_seconds": 45
+    },
+    {
+      "key": "pause_readings",
+      "label": {
+        "en": "Pause the readings",
+        "fr": "Mettre les lectures en pause",
+        "de": "Abfragen pausieren",
+        "es": "Pausar las lecturas"
+      },
+      "description": {
+        "en": "Frees the web page of the router for the pause length.",
+        "fr": "Libère la page web du routeur pendant la durée de la pause.",
+        "de": "Gibt die Weboberfläche des Routers für die Pausendauer frei.",
+        "es": "Libera la página web del router durante la duración de la pausa."
+      },
+      "timeout_seconds": 10
+    },
+    {
+      "key": "resume_readings",
+      "label": {
+        "en": "Resume the readings",
+        "fr": "Reprendre les lectures",
+        "de": "Abfragen fortsetzen",
+        "es": "Reanudar las lecturas"
+      },
+      "description": {
+        "en": "Ends a pause now.",
+        "fr": "Termine une pause tout de suite.",
+        "de": "Beendet eine Pause sofort.",
+        "es": "Termina una pausa ahora."
+      },
+      "timeout_seconds": 45
+    },
+    {
+      "key": "forget_network_devices",
+      "label": {
+        "en": "Forget known devices",
+        "fr": "Oublier les appareils connus",
+        "de": "Bekannte Geräte vergessen",
+        "es": "Olvidar dispositivos conocidos"
+      },
+      "description": {
+        "en": "The devices on the network now become the reference of the “new device” trigger.",
+        "fr": "Les appareils présents deviennent la référence du déclencheur « nouvel appareil ».",
+        "de": "Die jetzt vorhandenen Geräte werden zur Referenz des Auslösers „neues Gerät“.",
+        "es": "Los dispositivos presentes pasan a ser la referencia del disparador «nuevo dispositivo»."
+      },
+      "timeout_seconds": 10
+    }
+  ],
+  "widgets": [
+    {
+      "key": "overview",
+      "label": {
+        "en": "TP-Link router",
+        "fr": "Routeur TP-Link",
+        "de": "TP-Link-Router",
+        "es": "Router TP-Link"
+      },
+      "description": {
+        "en": "CPU, memory, clients, guests, internet, firmware, pause, reboot.",
+        "fr": "CPU, mémoire, clients, invités, Internet, micrologiciel, pause, redémarrage.",
+        "de": "CPU, Speicher, Clients, Gäste, Internet, Firmware, Pause, Neustart.",
+        "es": "CPU, memoria, clientes, invitados, Internet, firmware, pausa, reinicio."
+      },
+      "icon": "server",
+      "action_timeout_seconds": 60
+    },
+    {
+      "key": "internet",
+      "label": {
+        "en": "Internet link",
+        "fr": "Lien Internet",
+        "de": "Internetverbindung",
+        "es": "Enlace a Internet"
+      },
+      "description": {
+        "en": "Time connected, status, WAN address, gateway, DNS servers, IPv6.",
+        "fr": "Durée de connexion, état, adresse WAN, passerelle, serveurs DNS, IPv6.",
+        "de": "Verbindungsdauer, Status, WAN-Adresse, Gateway, DNS-Server, IPv6.",
+        "es": "Tiempo conectado, estado, dirección WAN, puerta de enlace, DNS, IPv6."
+      },
+      "icon": "globe"
+    },
+    {
+      "key": "wifi",
+      "label": {
+        "en": "Wi-Fi networks",
+        "fr": "Réseaux Wi-Fi",
+        "de": "WLAN-Netze",
+        "es": "Redes Wi-Fi"
+      },
+      "description": {
+        "en": "Main, guest and IoT Wi-Fi per band, with a guest Wi-Fi button.",
+        "fr": "Wi-Fi principal, invité et IoT par bande, avec un bouton Wi-Fi invité.",
+        "de": "Haupt-, Gast- und IoT-WLAN je Band, mit einer Gast-WLAN-Taste.",
+        "es": "Wi-Fi principal, invitados e IoT por banda, con un botón de invitados."
+      },
+      "icon": "wifi",
+      "action_timeout_seconds": 60
+    },
+    {
+      "key": "network",
+      "label": {
+        "en": "Network devices",
+        "fr": "Appareils du réseau",
+        "de": "Netzwerkgeräte",
+        "es": "Dispositivos de red"
+      },
+      "description": {
+        "en": "The clients connected now, or the ones that left, with their connection.",
+        "fr": "Les clients connectés en ce moment, ou ceux partis, avec leur connexion.",
+        "de": "Die jetzt verbundenen oder gegangenen Clients, mit ihrer Verbindung.",
+        "es": "Los clientes conectados ahora, o los que se fueron, con su conexión."
+      },
+      "icon": "smartphone",
+      "settings": [
+        {
+          "key": "show",
+          "type": "select",
+          "label": {
+            "en": "Show",
+            "fr": "Afficher",
+            "de": "Anzeigen",
+            "es": "Mostrar"
+          },
+          "options": [
+            {
+              "value": "present",
+              "label": {
+                "en": "Connected devices",
+                "fr": "Appareils connectés",
+                "de": "Verbundene Geräte",
+                "es": "Dispositivos conectados"
+              }
+            },
+            {
+              "value": "absent",
+              "label": {
+                "en": "Devices that left",
+                "fr": "Appareils partis",
+                "de": "Gegangene Geräte",
+                "es": "Dispositivos que se fueron"
+              }
+            },
+            {
+              "value": "all",
+              "label": {
+                "en": "All known devices",
+                "fr": "Tous les appareils connus",
+                "de": "Alle bekannten Geräte",
+                "es": "Todos los conocidos"
+              }
+            }
+          ],
+          "default": "present",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "scene_triggers": [
+    {
+      "key": "internet_status_changed",
+      "label": {
+        "en": "TP-Link: internet down or back",
+        "fr": "TP-Link : Internet coupé ou rétabli",
+        "de": "TP-Link: Internet weg oder zurück",
+        "es": "TP-Link: Internet caído o restablecido"
+      },
+      "description": {
+        "en": "The internet connection of the router went down or came back.",
+        "fr": "La connexion Internet du routeur s’est coupée ou est revenue.",
+        "de": "Die Internetverbindung des Routers ist ausgefallen oder zurückgekehrt.",
+        "es": "La conexión a Internet del router se cayó o volvió."
+      },
+      "fields": [
+        {
+          "key": "status",
+          "type": "select",
+          "label": {
+            "en": "Status",
+            "fr": "État",
+            "de": "Status",
+            "es": "Estado"
+          },
+          "description": {
+            "en": "Leave empty for both.",
+            "fr": "Laissez vide pour les deux.",
+            "de": "Leer lassen für beide.",
+            "es": "Déjelo vacío para ambos."
+          },
+          "options": [
+            {
+              "value": "disconnected",
+              "label": {
+                "en": "Down",
+                "fr": "Coupé",
+                "de": "Getrennt",
+                "es": "Caído"
+              }
+            },
+            {
+              "value": "connected",
+              "label": {
+                "en": "Back",
+                "fr": "Rétabli",
+                "de": "Zurück",
+                "es": "Restablecido"
+              }
+            }
+          ],
+          "required": false
+        }
+      ],
+      "variables": [
+        {
+          "key": "status",
+          "type": "string",
+          "label": {
+            "en": "Status",
+            "fr": "État",
+            "de": "Status",
+            "es": "Estado"
+          },
+          "description": {
+            "en": "connected or disconnected.",
+            "fr": "connected ou disconnected.",
+            "de": "connected oder disconnected.",
+            "es": "connected o disconnected."
+          }
+        },
+        {
+          "key": "previous_status",
+          "type": "string",
+          "label": {
+            "en": "Previous status",
+            "fr": "État précédent",
+            "de": "Vorheriger Status",
+            "es": "Estado anterior"
+          }
+        },
+        {
+          "key": "wan_ip",
+          "type": "string",
+          "label": {
+            "en": "WAN IP address",
+            "fr": "Adresse IP WAN",
+            "de": "WAN-IP-Adresse",
+            "es": "Dirección IP WAN"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready to put in a message.",
+            "fr": "Une phrase prête à mettre dans un message.",
+            "de": "Ein fertiger Satz für eine Nachricht.",
+            "es": "Una frase lista para poner en un mensaje."
+          }
+        }
+      ]
+    },
+    {
+      "key": "wan_ip_changed",
+      "label": {
+        "en": "TP-Link: public IP address changed",
+        "fr": "TP-Link : adresse IP publique changée",
+        "de": "TP-Link: öffentliche IP geändert",
+        "es": "TP-Link: IP pública cambiada"
+      },
+      "description": {
+        "en": "The router got a new WAN address from the internet provider.",
+        "fr": "Le routeur a reçu une nouvelle adresse WAN du fournisseur d’accès.",
+        "de": "Der Router hat vom Anbieter eine neue WAN-Adresse erhalten.",
+        "es": "El router recibió una nueva dirección WAN del proveedor."
+      },
+      "fields": [],
+      "variables": [
+        {
+          "key": "wan_ip",
+          "type": "string",
+          "label": {
+            "en": "New WAN IP address",
+            "fr": "Nouvelle adresse IP WAN",
+            "de": "Neue WAN-IP-Adresse",
+            "es": "Nueva dirección IP WAN"
+          }
+        },
+        {
+          "key": "previous_wan_ip",
+          "type": "string",
+          "label": {
+            "en": "Previous WAN IP address",
+            "fr": "Adresse IP WAN précédente",
+            "de": "Vorherige WAN-IP-Adresse",
+            "es": "Dirección IP WAN anterior"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready to put in a message.",
+            "fr": "Une phrase prête à mettre dans un message.",
+            "de": "Ein fertiger Satz für eine Nachricht.",
+            "es": "Una frase lista para poner en un mensaje."
+          }
+        }
+      ]
+    },
+    {
+      "key": "network_device_presence",
+      "label": {
+        "en": "TP-Link: device arrived or left",
+        "fr": "TP-Link : appareil arrivé ou parti",
+        "de": "TP-Link: Gerät gekommen oder gegangen",
+        "es": "TP-Link: dispositivo llegó o se fue"
+      },
+      "description": {
+        "en": "A device added in Gladys is connected to the router again, or has been gone for the absence delay.",
+        "fr": "Un appareil ajouté dans Gladys est de nouveau connecté au routeur, ou ne l’est plus depuis le délai d’absence.",
+        "de": "Ein in Gladys hinzugefügtes Gerät ist wieder mit dem Router verbunden oder seit der Abwesenheitsverzögerung weg.",
+        "es": "Un dispositivo añadido en Gladys vuelve a estar conectado al router, o lleva ausente el retardo de ausencia."
+      },
+      "fields": [
+        {
+          "key": "device",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Device",
+            "fr": "Appareil",
+            "de": "Gerät",
+            "es": "Dispositivo"
+          },
+          "description": {
+            "en": "A network device. Leave empty for any.",
+            "fr": "Un appareil du réseau. Laissez vide pour tous.",
+            "de": "Ein Netzwerkgerät. Leer lassen für jedes.",
+            "es": "Un dispositivo de red. Vacío para cualquiera."
+          },
+          "required": false
+        },
+        {
+          "key": "event",
+          "type": "select",
+          "label": {
+            "en": "Event",
+            "fr": "Événement",
+            "de": "Ereignis",
+            "es": "Evento"
+          },
+          "description": {
+            "en": "Leave empty for both.",
+            "fr": "Laissez vide pour les deux.",
+            "de": "Leer lassen für beide.",
+            "es": "Déjelo vacío para ambos."
+          },
+          "options": [
+            {
+              "value": "arrived",
+              "label": {
+                "en": "Arrived",
+                "fr": "Arrivé",
+                "de": "Gekommen",
+                "es": "Llegó"
+              }
+            },
+            {
+              "value": "left",
+              "label": {
+                "en": "Left",
+                "fr": "Parti",
+                "de": "Gegangen",
+                "es": "Se fue"
+              }
+            }
+          ],
+          "required": false
+        }
+      ],
+      "variables": [
+        {
+          "key": "device_name",
+          "type": "string",
+          "label": {
+            "en": "Device name",
+            "fr": "Nom de l’appareil",
+            "de": "Gerätename",
+            "es": "Nombre del dispositivo"
+          }
+        },
+        {
+          "key": "event",
+          "type": "string",
+          "label": {
+            "en": "Event",
+            "fr": "Événement",
+            "de": "Ereignis",
+            "es": "Evento"
+          },
+          "description": {
+            "en": "arrived or left.",
+            "fr": "arrived ou left.",
+            "de": "arrived oder left.",
+            "es": "arrived o left."
+          }
+        },
+        {
+          "key": "mac",
+          "type": "string",
+          "label": {
+            "en": "MAC address",
+            "fr": "Adresse MAC",
+            "de": "MAC-Adresse",
+            "es": "Dirección MAC"
+          }
+        },
+        {
+          "key": "ip",
+          "type": "string",
+          "label": {
+            "en": "IP address",
+            "fr": "Adresse IP",
+            "de": "IP-Adresse",
+            "es": "Dirección IP"
+          }
+        },
+        {
+          "key": "connection",
+          "type": "string",
+          "label": {
+            "en": "Connection",
+            "fr": "Connexion",
+            "de": "Verbindung",
+            "es": "Conexión"
+          },
+          "description": {
+            "en": "Wired, Guest Wi-Fi 5 GHz…",
+            "fr": "Filaire, Wi-Fi invité 5 GHz…",
+            "de": "Kabel, Gast-WLAN 5 GHz…",
+            "es": "Por cable, Wi-Fi invitados 5 GHz…"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready to put in a message.",
+            "fr": "Une phrase prête à mettre dans un message.",
+            "de": "Ein fertiger Satz für eine Nachricht.",
+            "es": "Una frase lista para poner en un mensaje."
+          }
+        }
+      ]
+    },
+    {
+      "key": "new_network_device",
+      "label": {
+        "en": "TP-Link: new device on the network",
+        "fr": "TP-Link : nouvel appareil sur le réseau",
+        "de": "TP-Link: neues Gerät im Netzwerk",
+        "es": "TP-Link: nuevo dispositivo en la red"
+      },
+      "description": {
+        "en": "A MAC address never seen before connects to the router.",
+        "fr": "Une adresse MAC jamais vue se connecte au routeur.",
+        "de": "Eine nie gesehene MAC-Adresse verbindet sich mit dem Router.",
+        "es": "Una dirección MAC nunca vista se conecta al router."
+      },
+      "fields": [
+        {
+          "key": "medium",
+          "type": "select",
+          "label": {
+            "en": "Connection",
+            "fr": "Connexion",
+            "de": "Verbindung",
+            "es": "Conexión"
+          },
+          "description": {
+            "en": "Leave empty for any.",
+            "fr": "Laissez vide pour tous.",
+            "de": "Leer lassen für jedes.",
+            "es": "Déjelo vacío para cualquiera."
+          },
+          "options": [
+            {
+              "value": "wifi",
+              "label": {
+                "en": "Wi-Fi",
+                "fr": "Wi-Fi",
+                "de": "WLAN",
+                "es": "Wi-Fi"
+              }
+            },
+            {
+              "value": "wired",
+              "label": {
+                "en": "Wired",
+                "fr": "Filaire",
+                "de": "Kabel",
+                "es": "Por cable"
+              }
+            }
+          ],
+          "required": false
+        },
+        {
+          "key": "network",
+          "type": "select",
+          "label": {
+            "en": "Network",
+            "fr": "Réseau",
+            "de": "Netz",
+            "es": "Red"
+          },
+          "description": {
+            "en": "Leave empty for any.",
+            "fr": "Laissez vide pour tous.",
+            "de": "Leer lassen für jedes.",
+            "es": "Déjelo vacío para cualquiera."
+          },
+          "options": [
+            {
+              "value": "host",
+              "label": {
+                "en": "Main Wi-Fi",
+                "fr": "Wi-Fi principal",
+                "de": "Haupt-WLAN",
+                "es": "Wi-Fi principal"
+              }
+            },
+            {
+              "value": "guest",
+              "label": {
+                "en": "Guest Wi-Fi",
+                "fr": "Wi-Fi invité",
+                "de": "Gast-WLAN",
+                "es": "Wi-Fi de invitados"
+              }
+            },
+            {
+              "value": "iot",
+              "label": {
+                "en": "IoT Wi-Fi",
+                "fr": "Wi-Fi IoT",
+                "de": "IoT-WLAN",
+                "es": "Wi-Fi IoT"
+              }
+            }
+          ],
+          "required": false
+        }
+      ],
+      "variables": [
+        {
+          "key": "mac",
+          "type": "string",
+          "label": {
+            "en": "MAC address",
+            "fr": "Adresse MAC",
+            "de": "MAC-Adresse",
+            "es": "Dirección MAC"
+          }
+        },
+        {
+          "key": "ip",
+          "type": "string",
+          "label": {
+            "en": "IP address",
+            "fr": "Adresse IP",
+            "de": "IP-Adresse",
+            "es": "Dirección IP"
+          }
+        },
+        {
+          "key": "name",
+          "type": "string",
+          "label": {
+            "en": "Name",
+            "fr": "Nom",
+            "de": "Name",
+            "es": "Nombre"
+          }
+        },
+        {
+          "key": "medium",
+          "type": "string",
+          "label": {
+            "en": "Connection type",
+            "fr": "Type de connexion",
+            "de": "Verbindungsart",
+            "es": "Tipo de conexión"
+          },
+          "description": {
+            "en": "wifi, wired or unknown.",
+            "fr": "wifi, wired ou unknown.",
+            "de": "wifi, wired oder unknown.",
+            "es": "wifi, wired o unknown."
+          }
+        },
+        {
+          "key": "network",
+          "type": "string",
+          "label": {
+            "en": "Network",
+            "fr": "Réseau",
+            "de": "Netz",
+            "es": "Red"
+          },
+          "description": {
+            "en": "host, guest or iot.",
+            "fr": "host, guest ou iot.",
+            "de": "host, guest oder iot.",
+            "es": "host, guest o iot."
+          }
+        },
+        {
+          "key": "connection",
+          "type": "string",
+          "label": {
+            "en": "Connection",
+            "fr": "Connexion",
+            "de": "Verbindung",
+            "es": "Conexión"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready to put in a message.",
+            "fr": "Une phrase prête à mettre dans un message.",
+            "de": "Ein fertiger Satz für eine Nachricht.",
+            "es": "Una frase lista para poner en un mensaje."
+          }
+        }
+      ]
+    }
+  ],
+  "scene_actions": [
+    {
+      "key": "get_status",
+      "label": {
+        "en": "TP-Link: read the status",
+        "fr": "TP-Link : lire l’état",
+        "de": "TP-Link: Status lesen",
+        "es": "TP-Link: leer el estado"
+      },
+      "description": {
+        "en": "The state of the router, for a message or a condition.",
+        "fr": "L’état du routeur, pour un message ou une condition.",
+        "de": "Der Zustand des Routers, für eine Nachricht oder eine Bedingung.",
+        "es": "El estado del router, para un mensaje o una condición."
+      },
+      "timeout_seconds": 45,
+      "outputs": [
+        {
+          "key": "cpu",
+          "type": "number",
+          "label": {
+            "en": "CPU (%)",
+            "fr": "CPU (%)",
+            "de": "CPU (%)",
+            "es": "CPU (%)"
+          },
+          "description": {
+            "en": "-1 when unknown.",
+            "fr": "-1 si inconnu.",
+            "de": "-1, wenn unbekannt.",
+            "es": "-1 si se desconoce."
+          }
+        },
+        {
+          "key": "memory",
+          "type": "number",
+          "label": {
+            "en": "Memory (%)",
+            "fr": "Mémoire (%)",
+            "de": "Speicher (%)",
+            "es": "Memoria (%)"
+          },
+          "description": {
+            "en": "-1 when unknown.",
+            "fr": "-1 si inconnu.",
+            "de": "-1, wenn unbekannt.",
+            "es": "-1 si se desconoce."
+          }
+        },
+        {
+          "key": "internet",
+          "type": "string",
+          "label": {
+            "en": "Internet",
+            "fr": "Internet",
+            "de": "Internet",
+            "es": "Internet"
+          },
+          "description": {
+            "en": "connected, disconnected or unknown.",
+            "fr": "connected, disconnected ou unknown.",
+            "de": "connected, disconnected oder unknown.",
+            "es": "connected, disconnected o unknown."
+          }
+        },
+        {
+          "key": "wan_ip",
+          "type": "string",
+          "label": {
+            "en": "WAN IP address",
+            "fr": "Adresse IP WAN",
+            "de": "WAN-IP-Adresse",
+            "es": "Dirección IP WAN"
+          }
+        },
+        {
+          "key": "internet_uptime_hours",
+          "type": "number",
+          "label": {
+            "en": "Internet connected for (h)",
+            "fr": "Internet connecté depuis (h)",
+            "de": "Internet verbunden seit (Std.)",
+            "es": "Internet conectado desde (h)"
+          },
+          "description": {
+            "en": "-1 when unknown.",
+            "fr": "-1 si inconnu.",
+            "de": "-1, wenn unbekannt.",
+            "es": "-1 si se desconoce."
+          }
+        },
+        {
+          "key": "devices_present",
+          "type": "number",
+          "label": {
+            "en": "Devices on the network",
+            "fr": "Appareils sur le réseau",
+            "de": "Geräte im Netzwerk",
+            "es": "Dispositivos en la red"
+          }
+        },
+        {
+          "key": "guests",
+          "type": "number",
+          "label": {
+            "en": "Devices on the guest Wi-Fi",
+            "fr": "Appareils sur le Wi-Fi invité",
+            "de": "Geräte im Gast-WLAN",
+            "es": "Dispositivos en Wi-Fi de invitados"
+          },
+          "description": {
+            "en": "-1 when unknown.",
+            "fr": "-1 si inconnu.",
+            "de": "-1, wenn unbekannt.",
+            "es": "-1 si se desconoce."
+          }
+        },
+        {
+          "key": "model",
+          "type": "string",
+          "label": {
+            "en": "Model",
+            "fr": "Modèle",
+            "de": "Modell",
+            "es": "Modelo"
+          }
+        },
+        {
+          "key": "firmware",
+          "type": "string",
+          "label": {
+            "en": "Firmware",
+            "fr": "Micrologiciel",
+            "de": "Firmware",
+            "es": "Firmware"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          }
+        }
+      ]
+    },
+    {
+      "key": "set_wifi",
+      "label": {
+        "en": "TP-Link: turn Wi-Fi on or off",
+        "fr": "TP-Link : activer ou couper le Wi-Fi",
+        "de": "TP-Link: WLAN ein- oder ausschalten",
+        "es": "TP-Link: activar o apagar el Wi-Fi"
+      },
+      "description": {
+        "en": "Turns the main, guest or IoT Wi-Fi on or off, on one band or all of them.",
+        "fr": "Active ou coupe le Wi-Fi principal, invité ou IoT, sur une bande ou toutes.",
+        "de": "Schaltet das Haupt-, Gast- oder IoT-WLAN auf einem oder allen Bändern ein oder aus.",
+        "es": "Activa o apaga el Wi-Fi principal, de invitados o IoT, en una banda o en todas."
+      },
+      "timeout_seconds": 60,
+      "fields": [
+        {
+          "key": "network",
+          "type": "select",
+          "label": {
+            "en": "Network",
+            "fr": "Réseau",
+            "de": "Netz",
+            "es": "Red"
+          },
+          "options": [
+            {
+              "value": "host",
+              "label": {
+                "en": "Main Wi-Fi",
+                "fr": "Wi-Fi principal",
+                "de": "Haupt-WLAN",
+                "es": "Wi-Fi principal"
+              }
+            },
+            {
+              "value": "guest",
+              "label": {
+                "en": "Guest Wi-Fi",
+                "fr": "Wi-Fi invité",
+                "de": "Gast-WLAN",
+                "es": "Wi-Fi de invitados"
+              }
+            },
+            {
+              "value": "iot",
+              "label": {
+                "en": "IoT Wi-Fi",
+                "fr": "Wi-Fi IoT",
+                "de": "IoT-WLAN",
+                "es": "Wi-Fi IoT"
+              }
+            }
+          ],
+          "required": true
+        },
+        {
+          "key": "band",
+          "type": "select",
+          "label": {
+            "en": "Band",
+            "fr": "Bande",
+            "de": "Band",
+            "es": "Banda"
+          },
+          "description": {
+            "en": "Leave empty for every band.",
+            "fr": "Laissez vide pour toutes les bandes.",
+            "de": "Leer lassen für alle Bänder.",
+            "es": "Déjelo vacío para todas las bandas."
+          },
+          "options": [
+            {
+              "value": "all",
+              "label": {
+                "en": "Every band",
+                "fr": "Toutes les bandes",
+                "de": "Alle Bänder",
+                "es": "Todas las bandas"
+              }
+            },
+            {
+              "value": "2g",
+              "label": {
+                "en": "2.4 GHz",
+                "fr": "2,4 GHz",
+                "de": "2,4 GHz",
+                "es": "2,4 GHz"
+              }
+            },
+            {
+              "value": "5g",
+              "label": {
+                "en": "5 GHz",
+                "fr": "5 GHz",
+                "de": "5 GHz",
+                "es": "5 GHz"
+              }
+            },
+            {
+              "value": "6g",
+              "label": {
+                "en": "6 GHz",
+                "fr": "6 GHz",
+                "de": "6 GHz",
+                "es": "6 GHz"
+              }
+            }
+          ],
+          "required": false
+        },
+        {
+          "key": "state",
+          "type": "select",
+          "label": {
+            "en": "State",
+            "fr": "État",
+            "de": "Zustand",
+            "es": "Estado"
+          },
+          "options": [
+            {
+              "value": "on",
+              "label": {
+                "en": "On",
+                "fr": "Activé",
+                "de": "Ein",
+                "es": "Activado"
+              }
+            },
+            {
+              "value": "off",
+              "label": {
+                "en": "Off",
+                "fr": "Coupé",
+                "de": "Aus",
+                "es": "Apagado"
+              }
+            }
+          ],
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "key": "switched",
+          "type": "number",
+          "label": {
+            "en": "Networks switched",
+            "fr": "Réseaux modifiés",
+            "de": "Geschaltete Netze",
+            "es": "Redes cambiadas"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          }
+        }
+      ]
+    },
+    {
+      "key": "reboot",
+      "label": {
+        "en": "TP-Link: reboot the router",
+        "fr": "TP-Link : redémarrer le routeur",
+        "de": "TP-Link: Router neu starten",
+        "es": "TP-Link: reiniciar el router"
+      },
+      "description": {
+        "en": "The network and the internet are cut for a few minutes.",
+        "fr": "Le réseau et Internet sont coupés quelques minutes.",
+        "de": "Netzwerk und Internet sind einige Minuten unterbrochen.",
+        "es": "La red e Internet se cortan unos minutos."
+      },
+      "timeout_seconds": 45
+    }
+  ]
+}

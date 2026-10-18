@@ -1,0 +1,16 @@
+Gladys TP-Link / Mercusys Router integration
+Copyright 2026 William Deren
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+The router client (src/tplink-api.js, src/crypto.js, src/read.js) is a new
+JavaScript implementation of the login and request protocol of the TP-Link /
+Mercusys web page. The protocol (form paths, key exchange, encryption and
+signature schemes, answer fields) was learned by studying the tplinkrouterc6u
+Python library, Copyright Alex Erohin and contributors
+(https://github.com/AlexandrErohin/TP-Link-Archer-C6U). No code nor file of
+that library is included or translated in this product.
+
+TP-Link, Archer, Deco and Tether are trademarks of TP-Link Systems Inc.;
+Mercusys is a trademark of its owner. This community integration is not
+affiliated with, endorsed or sponsored by them.

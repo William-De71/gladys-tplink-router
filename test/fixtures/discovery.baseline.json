@@ -1,0 +1,405 @@
+{
+  "devices": {
+    "router": {
+      "external_id": "ext:tplink-router:router:main",
+      "should_poll": false,
+      "params": ["MAC", "FIRMWARE"],
+      "features": [
+        {
+          "external_id": "ext:tplink-router:router:main:cpu",
+          "category": "level-sensor",
+          "type": "decimal",
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:tplink-router:router:main:memory",
+          "category": "level-sensor",
+          "type": "decimal",
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:tplink-router:router:main:internet",
+          "category": "text",
+          "type": "text",
+          "min": 0,
+          "max": 0,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:tplink-router:router:main:wan_ip",
+          "category": "text",
+          "type": "text",
+          "min": 0,
+          "max": 0,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:tplink-router:router:main:internet_uptime",
+          "category": "duration",
+          "type": "decimal",
+          "unit": "hours",
+          "min": 0,
+          "max": 1000000,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:tplink-router:router:main:clients",
+          "category": "counter-sensor",
+          "type": "integer",
+          "min": 0,
+          "max": 10000,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:tplink-router:router:main:clients_wifi",
+          "category": "counter-sensor",
+          "type": "integer",
+          "min": 0,
+          "max": 10000,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:tplink-router:router:main:clients_wired",
+          "category": "counter-sensor",
+          "type": "integer",
+          "min": 0,
+          "max": 10000,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:tplink-router:router:main:clients_guest",
+          "category": "counter-sensor",
+          "type": "integer",
+          "min": 0,
+          "max": 10000,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:tplink-router:router:main:firmware",
+          "category": "text",
+          "type": "text",
+          "min": 0,
+          "max": 0,
+          "read_only": true,
+          "has_feedback": false
+        }
+      ]
+    },
+    "wifi": {
+      "external_id": "ext:tplink-router:wifi:guest_5g",
+      "should_poll": false,
+      "params": ["WIFI_NETWORK"],
+      "features": [
+        {
+          "external_id": "ext:tplink-router:wifi:guest_5g:enabled",
+          "category": "switch",
+          "type": "binary",
+          "min": 0,
+          "max": 1,
+          "read_only": false,
+          "has_feedback": true
+        }
+      ]
+    },
+    "client": {
+      "external_id": "ext:tplink-router:client:a483e7123456",
+      "should_poll": false,
+      "params": ["MAC"],
+      "features": [
+        {
+          "external_id": "ext:tplink-router:client:a483e7123456:presence",
+          "category": "presence-sensor",
+          "type": "push",
+          "min": 0,
+          "max": 1,
+          "read_only": true,
+          "has_feedback": false
+        }
+      ]
+    }
+  },
+  "manifest": {
+    "actions": ["test_connection", "pause_readings", "resume_readings", "forget_network_devices"],
+    "config_schema": [
+      {
+        "key": "intro",
+        "type": "section"
+      },
+      {
+        "key": "url",
+        "type": "string"
+      },
+      {
+        "key": "password",
+        "type": "secret"
+      },
+      {
+        "key": "username",
+        "type": "string"
+      },
+      {
+        "key": "verify_tls",
+        "type": "boolean"
+      },
+      {
+        "key": "options_intro",
+        "type": "section"
+      },
+      {
+        "key": "poll_interval",
+        "type": "number"
+      },
+      {
+        "key": "pause_minutes",
+        "type": "number"
+      },
+      {
+        "key": "network_devices",
+        "type": "select"
+      },
+      {
+        "key": "absence_delay",
+        "type": "number"
+      },
+      {
+        "key": "language",
+        "type": "select"
+      }
+    ],
+    "scene_triggers": [
+      {
+        "key": "internet_status_changed",
+        "fields": [
+          {
+            "key": "status",
+            "options": ["disconnected", "connected"]
+          }
+        ],
+        "variables": [
+          {
+            "key": "status",
+            "type": "string"
+          },
+          {
+            "key": "previous_status",
+            "type": "string"
+          },
+          {
+            "key": "wan_ip",
+            "type": "string"
+          },
+          {
+            "key": "summary",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "key": "wan_ip_changed",
+        "fields": [],
+        "variables": [
+          {
+            "key": "wan_ip",
+            "type": "string"
+          },
+          {
+            "key": "previous_wan_ip",
+            "type": "string"
+          },
+          {
+            "key": "summary",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "key": "network_device_presence",
+        "fields": [
+          {
+            "key": "device",
+            "options": []
+          },
+          {
+            "key": "event",
+            "options": ["arrived", "left"]
+          }
+        ],
+        "variables": [
+          {
+            "key": "device_name",
+            "type": "string"
+          },
+          {
+            "key": "event",
+            "type": "string"
+          },
+          {
+            "key": "mac",
+            "type": "string"
+          },
+          {
+            "key": "ip",
+            "type": "string"
+          },
+          {
+            "key": "connection",
+            "type": "string"
+          },
+          {
+            "key": "summary",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "key": "new_network_device",
+        "fields": [
+          {
+            "key": "medium",
+            "options": ["wifi", "wired"]
+          },
+          {
+            "key": "network",
+            "options": ["host", "guest", "iot"]
+          }
+        ],
+        "variables": [
+          {
+            "key": "mac",
+            "type": "string"
+          },
+          {
+            "key": "ip",
+            "type": "string"
+          },
+          {
+            "key": "name",
+            "type": "string"
+          },
+          {
+            "key": "medium",
+            "type": "string"
+          },
+          {
+            "key": "network",
+            "type": "string"
+          },
+          {
+            "key": "connection",
+            "type": "string"
+          },
+          {
+            "key": "summary",
+            "type": "string"
+          }
+        ]
+      }
+    ],
+    "scene_actions": [
+      {
+        "key": "get_status",
+        "fields": [],
+        "outputs": [
+          {
+            "key": "cpu",
+            "type": "number"
+          },
+          {
+            "key": "memory",
+            "type": "number"
+          },
+          {
+            "key": "internet",
+            "type": "string"
+          },
+          {
+            "key": "wan_ip",
+            "type": "string"
+          },
+          {
+            "key": "internet_uptime_hours",
+            "type": "number"
+          },
+          {
+            "key": "devices_present",
+            "type": "number"
+          },
+          {
+            "key": "guests",
+            "type": "number"
+          },
+          {
+            "key": "model",
+            "type": "string"
+          },
+          {
+            "key": "firmware",
+            "type": "string"
+          },
+          {
+            "key": "summary",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "key": "set_wifi",
+        "fields": ["network", "band", "state"],
+        "outputs": [
+          {
+            "key": "switched",
+            "type": "number"
+          },
+          {
+            "key": "summary",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "key": "reboot",
+        "fields": [],
+        "outputs": []
+      }
+    ],
+    "widgets": [
+      {
+        "key": "overview",
+        "settings": [],
+        "options": {}
+      },
+      {
+        "key": "internet",
+        "settings": [],
+        "options": {}
+      },
+      {
+        "key": "wifi",
+        "settings": [],
+        "options": {}
+      },
+      {
+        "key": "network",
+        "settings": ["show"],
+        "options": {
+          "show": ["present", "absent", "all"]
+        }
+      }
+    ]
+  }
+}
