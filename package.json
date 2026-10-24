@@ -1,6 +1,6 @@
 {
   "name": "gladys-tplink-router",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "External Gladys Assistant integration for TP-Link and Mercusys routers: internet link, Wi-Fi and guest Wi-Fi, network presence, scenes and dashboard widgets.",
   "homepage": "https://github.com/William-De71/gladys-tplink-router",
