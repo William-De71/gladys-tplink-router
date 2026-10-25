@@ -5,7 +5,7 @@
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Latest release](https://img.shields.io/github/v/release/William-De71/gladys-tplink-router?sort=semver)](https://github.com/William-De71/gladys-tplink-router/releases)
 [![CI](https://img.shields.io/github/actions/workflow/status/William-De71/gladys-tplink-router/release.yml?branch=main&label=CI)](https://github.com/William-De71/gladys-tplink-router/actions/workflows/release.yml)
-[![Gladys](https://img.shields.io/badge/Gladys-%E2%89%A5%205.1.0-2f6fb5)](https://gladysassistant.com)
+[![Gladys](https://img.shields.io/badge/Gladys-%E2%89%A5%205.3.0-2f6fb5)](https://gladysassistant.com)
 
 ![TP-Link / Mercusys Router for Gladys Assistant](cover.jpg)
 
@@ -96,7 +96,7 @@ The integration has no "router rebooted" nor "firmware update available" trigger
 
 ## Requirements
 
-- Gladys Assistant **5.1.0** or later (widgets and scenes): older instances cannot install the integration.
+- Gladys Assistant **5.3.0** or later (widgets and scenes; catalog keywords and countries of Gladys 5.3): older instances cannot install the integration.
 - A TP-Link or Mercusys router whose web page shows `/webpages/index.html`, in router mode, and its local password (not a TP-Link ID).
 
 ## Installation

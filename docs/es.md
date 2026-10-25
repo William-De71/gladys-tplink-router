@@ -16,7 +16,7 @@ La imagen de arriba es una ilustración generada, no una captura de pantalla.
 
 ## Requisitos previos
 
-- Gladys Assistant 5.1.0 o posterior.
+- Gladys Assistant 5.3.0 o posterior.
 - Un router TP-Link o Mercusys cuya página web muestre `/webpages/index.html` en la barra de direcciones. Se admiten cuatro variantes de inicio de sesión de esta página (la integración encuentra la buena). Los sistemas Deco (solo aplicación), los modelos 4G/5G con otra página web (Archer MR, TL-MR, EX, VR) y los routers antiguos (TL-WR841N, Archer C50) aún no se admiten.
 - La **contraseña local** del router, la de su página web, no la contraseña de un TP-Link ID.
 - Gladys debe llegar al router: su dirección en la red local (`192.168.0.1`, `192.168.1.1`, `tplinkwifi.net`). `https://` solo funciona si la **Gestión local vía HTTPS** está activada en el router.
